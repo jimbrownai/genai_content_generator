@@ -67,6 +67,27 @@ class Chain:
         chain_email = prompt_email | self.llm
         res = chain_email.invoke({"job_description": str(job), "link_list": links})
         return res.content
+    
+    def write_cover_letter(self,job,links):
+        prompt_cover_letter = PromptTemplate.from_template(
+            """
+            ### JOB DESCRIPTION:
+            {job_description}
+            
+            ### INSTRUCTION:
+            You are Bosco, a software developer recently graduated on Major Cloud Computing Technologies. 
+            You have more than 2 years of Professional experience in Software development and gained hands-on experience in building fully structured cloud architecture in AWS, Azure and GCP.
+            Your job is to write a cover letter to the client regarding the job mentioned above describing your capabilities 
+            in fulfilling their needs.
+            Remember you are Bosco, recent graduate from George Brown College. 
+            Do not provide a preamble.
+            ### EMAIL (NO PREAMBLE):    
+            """
+        )
+        chain_cover_letter = prompt_cover_letter | self.llm
+        res = chain_cover_letter.invoke({"job_description": str(job), "link_list": links})
+        return res.content
+        
 
 if __name__ == "__main__":
     print(os.getenv("GROQ_API_KEY"))
